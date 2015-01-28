@@ -111,12 +111,12 @@ public class RealSenseRos {
 					markerData.put("header", markerHeader);
 					markerData.put("type", 0);
 					markerData.put("action", 0);
-					
+					markerData.put("lifetime", 1);
 					
 					Map<String, Object> poseStamped = new HashMap<String, Object>();
 					
 					Map<String, Object> pose = new HashMap<String, Object>();
-					pose.put("x", Float.valueOf(world.x));
+					pose.put("x", Float.valueOf(world.x) + 1);
 					pose.put("y", Float.valueOf(world.y));
 					pose.put("z", Float.valueOf(world.z));
 					poseStamped.put("position", pose);
@@ -131,16 +131,20 @@ public class RealSenseRos {
 					markerData.put("pose", poseStamped);
 
 					Map<String, Float> scale = new HashMap<String, Float>();
-					scale.put("x", (float) 1.0);
-					scale.put("y", (float) 1.0);
-					scale.put("z", (float) 1.0);
+					
+					int openness = hand.QueryOpenness();
+					System.out.println("open: " + openness);
+					
+					scale.put("x", (float) 0.1);
+					scale.put("y", (float) 0.1);
+					scale.put("z", (float) 0.1);
 					markerData.put("scale",  scale);
 					
 					
 					Map<String, Float> color = new HashMap<String, Float>();
-					color.put("r", (float) 1.0);
-					color.put("g", (float) 1.0);
-					color.put("b", (float) 1.0);
+					color.put("r", (float) (1.0 * openness / 100.0));
+					color.put("g", (float) (1.0 * openness / 100.0));
+					color.put("b", (float) (1.0 * openness / 100.0));
 					color.put("a", (float) 1.0);
 					markerData.put("color", color);
 					
