@@ -1,5 +1,8 @@
 package edu.brown.cs.h2r.real_sense_ros;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import intel.rssdk.PXCMCapture;
 import intel.rssdk.PXCMCaptureManager;
 import intel.rssdk.PXCMHandConfiguration;
@@ -10,10 +13,22 @@ import intel.rssdk.PXCMPointF32;
 import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
+import ros.Publisher;
+import ros.RosBridge;
 
 public class RealSenseRos {
-	public static void main(String s[]) {
+	public static void main(String args[]) {
 		System.out.println("Starting hand tracker.");
+		if (args.length != 1) {
+			System.err.println("Usage: RealSenseRos ws://ROSBRIDGE_URL:9090");
+		}
+		System.out.println("Connecting to rosbridge at " + args[0]);
+		RosBridge bridge = RosBridge.createConnection(args[0]);
+		bridge.waitForConnection();
+		Publisher strpub = new Publisher("/bridge", "std_msgs/String", bridge);
+		
+		Publisher markerpub = new Publisher("/rssdk/hand_marker", "visualization_msgs/Marker", bridge);
+		
 		// Create session
 		PXCMSession session = PXCMSession.CreateInstance();
 		if (session == null) {
@@ -75,6 +90,7 @@ public class RealSenseRos {
 				if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR) >= 0) {
 					PXCMPointF32 image = hand.QueryMassCenterImage();
 					PXCMPoint3DF32 world = hand.QueryMassCenterWorld();
+					
 
 					System.out
 							.println("Palm Center at frame " + nframes + ": ");
@@ -82,15 +98,62 @@ public class RealSenseRos {
 							+ image.y + ")");
 					System.out.println("   World Position: (" + world.x + ","
 							+ world.y + "," + world.z + ")");
+					final Map<String, String> strData = new HashMap<String, String>();
+					strData.put("data", "x: " + world.x + ", " + world.y + "," + world.z );
+					strpub.publish(strData);
+					
+					Map<String, Object> markerData = new HashMap<String, Object>();
+					Map<String, String> markerHeader = new HashMap<String, String>();
+					long currentTimeMicros = System.currentTimeMillis() * 1000 ;
+					markerHeader.put("frame_id", "base");
+					System.out.println("Time: " + currentTimeMicros);
+					markerHeader.put("stamp", String.valueOf(currentTimeMicros));
+					markerData.put("header", markerHeader);
+					markerData.put("type", 0);
+					markerData.put("action", 0);
+					
+					
+					Map<String, Object> poseStamped = new HashMap<String, Object>();
+					
+					Map<String, Object> pose = new HashMap<String, Object>();
+					pose.put("x", Float.valueOf(world.x));
+					pose.put("y", Float.valueOf(world.y));
+					pose.put("z", Float.valueOf(world.z));
+					poseStamped.put("position", pose);
+					
+					Map<String, Float> orientation = new HashMap<String, Float>();
+					orientation.put("x", (float) 0.0);
+					orientation.put("y", (float) 0.0);
+					orientation.put("z", (float) 0.0);
+					orientation.put("w", (float) 1.0);
+					poseStamped.put("orientation", orientation);
+					
+					markerData.put("pose", poseStamped);
+
+					Map<String, Float> scale = new HashMap<String, Float>();
+					scale.put("x", (float) 1.0);
+					scale.put("y", (float) 1.0);
+					scale.put("z", (float) 1.0);
+					markerData.put("scale",  scale);
+					
+					
+					Map<String, Float> color = new HashMap<String, Float>();
+					color.put("r", (float) 1.0);
+					color.put("g", (float) 1.0);
+					color.put("b", (float) 1.0);
+					color.put("a", (float) 1.0);
+					markerData.put("color", color);
+					
+					markerpub.publish(markerData);
 				}
 
 				// alerts
-				int nalerts = handData.QueryFiredAlertsNumber();
+				//int nalerts = handData.QueryFiredAlertsNumber();
 				//System.out.println("# of alerts at frame " + nframes + " is "
 				//		+ nalerts);
 
 				// gestures
-				int ngestures = handData.QueryFiredGesturesNumber();
+				//int ngestures = handData.QueryFiredGesturesNumber();
 				//System.out.println("# of gestures at frame " + nframes + " is "
 				//		+ ngestures);
 

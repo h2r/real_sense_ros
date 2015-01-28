@@ -7,5 +7,12 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Program Files (x86)/Intel/RSSDK/framework/common/pxcclr.java/bin/x64"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/jackson-annotations-2.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-2.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-databind-2.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/java_rosbridge.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-all-9.2.6.v20141205-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-all-9.2.6.v20141205.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
