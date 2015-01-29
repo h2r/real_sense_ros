@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Program Files (x86)/Intel/RSSDK/framework/common/pxcclr.java/bin/x64/libpxcclr.java.jar">
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Intel/RSSDK/framework/common/pxcclr.java/bin/x64/libpxcclr.java.jar" sourcepath="C:/Users/h2r/Desktop/java source">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Program Files (x86)/Intel/RSSDK/framework/common/pxcclr.java/bin/x64"/>
 		</attributes>

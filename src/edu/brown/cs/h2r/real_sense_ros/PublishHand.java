@@ -6,6 +6,7 @@ import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandData;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMImage;
+import intel.rssdk.PXCMImageShared.Access;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPointF32;
 import intel.rssdk.PXCMSenseManager;
@@ -78,6 +79,13 @@ public class PublishHand {
 				HashMap<String, Object> imageData = new HashMap<String, Object>();
 				
 				PXCMImage.ImageData data = new PXCMImage.ImageData();
+				sample.depth.AcquireAccess(Access.ACCESS_READ, data);
+				System.out.println("Data: " + data.format);
+				System.out.println("Data pitch lengtH: " + data.pitches.length);
+				System.out.println("Data p0: " + data.pitches[0]);
+				System.out.println("Data p1: " + data.pitches[1]);
+				System.out.println("Data p2: " + data.pitches[2]);
+				System.out.println("Data p3: " + data.pitches[3]);
 					
 				// Query and Display Joint of Hand or Palm
 				handData.Update();
