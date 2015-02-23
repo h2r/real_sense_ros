@@ -76,16 +76,17 @@ public class PublishHand {
 				}
 
 				PXCMCapture.Sample sample = senseMgr.QueryHandSample();
-				HashMap<String, Object> imageData = new HashMap<String, Object>();
+				//HashMap<String, Object> imageData = new HashMap<String, Object>();
 				
-				PXCMImage.ImageData data = new PXCMImage.ImageData();
-				sample.depth.AcquireAccess(Access.ACCESS_READ, data);
-				System.out.println("Data: " + data.format);
-				System.out.println("Data pitch lengtH: " + data.pitches.length);
-				System.out.println("Data p0: " + data.pitches[0]);
-				System.out.println("Data p1: " + data.pitches[1]);
-				System.out.println("Data p2: " + data.pitches[2]);
-				System.out.println("Data p3: " + data.pitches[3]);
+				//PXCMImage.ImageData data = new PXCMImage.ImageData();
+				//sample.depth.AcquireAccess(Access.ACCESS_READ, data);
+				//System.out.println("Data: " + data.format);
+				//System.out.println("Data pitch lengtH: " + data.pitches.length);
+				//System.out.println("Data p0: " + data.pitches[0]);
+				//System.out.println("Data p1: " + data.pitches[1]);
+				//System.out.println("Data p2: " + data.pitches[2]);
+				//System.out.println("Data p3: " + data.pitches[3]);
+					
 					
 				// Query and Display Joint of Hand or Palm
 				handData.Update();
